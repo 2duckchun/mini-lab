@@ -4,6 +4,14 @@ const app = express();
 
 let visitor = 0;
 
+app.get("/redirect", (req, res) => {
+  res.redirect(302, "/to-location");
+});
+
+app.get("/to-location", (req, res) => {
+  res.send("<h1>하이롱</h1>");
+});
+
 app.get("/user-count", (req, res) => {
   console.log(req.ip);
   const cookie = req.get("cookie") || "";
