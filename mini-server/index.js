@@ -5,11 +5,11 @@ const app = express();
 let visitor = 0;
 
 app.get("/redirect", (req, res) => {
-  res.redirect(302, "/to-location");
+  res.redirect(302, "/to-location?query=string&keroro=giroro");
 });
 
 app.get("/to-location", (req, res) => {
-  res.send("<h1>하이롱</h1>");
+  res.send("<h1>302 리다이렉트</h1>");
 });
 
 app.get("/user-count", (req, res) => {
