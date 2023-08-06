@@ -1,6 +1,15 @@
 // 모델을 컨트롤하는 컨트롤러 작성
 import User from "../models/user";
 import { Response, Request, NextFunction } from "express";
+import { sendEmail } from "../config/email";
+
+export const sendEmailToUserText = (req: Request, res: Response) => {
+  // sendEmail("kkts9308@gmail.com", String(123456));
+  return res.status(201).json({
+    statusCode: 201,
+    message: "success",
+  });
+};
 
 export const createUser = (req: Request, res: Response, next: NextFunction) => {
   const { name, age, comment } = req.body;
