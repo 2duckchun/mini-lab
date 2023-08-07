@@ -1,8 +1,16 @@
 import express from "express";
-import { createUser } from "../controllers/auth";
-import { sendEmailToUserText } from "../controllers/auth";
+import {
+  createUser,
+  sendEmail,
+  checkIdDuplicate,
+  checkNickNameDuplicate,
+} from "../controllers/auth";
 export const authRouter = express.Router();
 
-authRouter.get("/sendEmailTest", sendEmailToUserText);
+authRouter.post("/sendauthcode", sendEmail);
+
+authRouter.post("/iddupcheck", checkIdDuplicate);
+
+authRouter.post("/nicknamedupcheck", checkNickNameDuplicate);
 
 authRouter.post("/signin", createUser);
