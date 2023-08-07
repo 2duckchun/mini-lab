@@ -5,18 +5,32 @@ export default class User extends Sequelize.Model {
   static init(sequelize: any) {
     return super.init(
       {
-        name: {
+        id: {
+          type: Sequelize.UUID,
+          defaultValue: Sequelize.UUIDV4,
+          primaryKey: true,
+        },
+        loginId: {
           type: Sequelize.STRING(20),
           allowNull: false,
           unique: true,
         },
-        age: {
-          type: Sequelize.INTEGER.UNSIGNED,
+        password: {
+          type: Sequelize.STRING(255),
           allowNull: false,
         },
-        comment: {
-          type: Sequelize.TEXT,
-          allowNull: true,
+        email: {
+          type: Sequelize.STRING(100),
+          allowNull: false,
+          validate: {
+            isEmail: true,
+          },
+          unique: true,
+        },
+        nickname: {
+          type: Sequelize.STRING(20),
+          allowNull: false,
+          unique: true,
         },
         created_at: {
           type: Sequelize.DATE,
