@@ -1,12 +1,12 @@
 import styles from "./Signin.module.css";
 import { useState } from "react";
-import generateRandomString from "../utils/generateRandomString";
+import generateRandomString from "../../utils/generateRandomString";
 import {
   checkIdDuplicate,
   checkNickNameDuplicate,
   createUser,
   sendAuthCodeToUserEmail,
-} from "../apis/user/user";
+} from "../../apis/user/user";
 
 export default function Signin() {
   const [userInput, setUserInput] = useState({

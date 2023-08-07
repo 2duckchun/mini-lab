@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Signin from "../user/Signin";
+import Signin from "../pages/user/Signin";
 
 export default function Router() {
   return (
