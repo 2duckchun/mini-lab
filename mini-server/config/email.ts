@@ -13,7 +13,7 @@ type MailOption = {
 
 type GetEmailData = (to: string, authCode: string) => MailOption;
 
-const getEmailData: GetEmailData = (to, authCode) => {
+export const setSendEmail: GetEmailData = (to, authCode) => {
   const data: MailOption = {
     from: process.env.MAIL_USER as string,
     to,
@@ -24,27 +24,38 @@ const getEmailData: GetEmailData = (to, authCode) => {
   return data;
 };
 
-export const sendEmail = (to: string, authCode: string) => {
-  const smtpTransport = nodemailer.createTransport({
-    service: "Naver",
-    auth: {
-      user: process.env.MAIL_USER,
-      pass: process.env.MAIL_PASSWORD,
-    },
-    tls: {
-      rejectUnauthorized: false,
-    },
-  });
-
-  const mail = getEmailData(to, authCode);
-
-  smtpTransport.sendMail(mail, (error, response) => {
-    if (error) {
-      console.error(error);
-    } else {
-      console.log(response);
-    }
-
-    smtpTransport.close();
-  });
+export const senderConfig = {
+  service: "Naver",
+  auth: {
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASSWORD,
+  },
+  tls: {
+    rejectUnauthorized: false,
+  },
 };
+
+// export const sendEmail = (to: string, authCode: string) => {
+//   const smtpTransport = nodemailer.createTransport({
+//     service: "Naver",
+//     auth: {
+//       user: process.env.MAIL_USER,
+//       pass: process.env.MAIL_PASSWORD,
+//     },
+//     tls: {
+//       rejectUnauthorized: false,
+//     },
+//   });
+
+//   const mail = getEmailData(to, authCode);
+
+//   smtpTransport.sendMail(mail, (error, response) => {
+//     if (error) {
+//       console.error(error);
+//     } else {
+//       console.log(response);
+//     }
+
+//     smtpTransport.close();
+//   });
+// };
