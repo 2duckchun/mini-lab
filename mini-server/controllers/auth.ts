@@ -92,11 +92,7 @@ export const checkIdDuplicate = (req: Request, res: Response) => {
     });
 };
 
-export const createUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const createUser = async (req: Request, res: Response) => {
   const { loginId, password, email, nickname } = req.body;
   const hashedPassword = await bcrypt.hash(password, 13);
 

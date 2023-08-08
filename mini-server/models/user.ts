@@ -1,8 +1,9 @@
-import Sequelize from "sequelize";
+import Sequelize, { Sequelize as SequelizeType } from "sequelize";
+import { SequelizeDBConfig } from "../types/config";
 
 // @ts-ignore
 export default class User extends Sequelize.Model {
-  static init(sequelize: any) {
+  static init(sequelize: SequelizeType) {
     return super.init(
       {
         id: {
@@ -50,7 +51,7 @@ export default class User extends Sequelize.Model {
       }
     );
   }
-  static associate(db: any) {
+  static associate(db: SequelizeDBConfig) {
     db.User.hasMany(db.Comment, { foreignKey: "commenter", sourceKey: "id" });
   }
 }
