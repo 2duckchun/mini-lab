@@ -1,6 +1,14 @@
 import Sequelize, { Sequelize as SequelizeType } from "sequelize";
 import { SequelizeDBConfig } from "../types/config";
 
+export type UserDomain = {
+  id: string;
+  loginId: string;
+  password: string;
+  email: string;
+  nickname: string;
+};
+
 // @ts-ignore
 export default class User extends Sequelize.Model {
   static init(sequelize: SequelizeType) {
