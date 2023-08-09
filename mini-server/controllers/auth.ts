@@ -2,8 +2,11 @@
 import User from "../models/user";
 import nodemailer from "nodemailer";
 import bcrypt from "bcrypt";
-import { Response, Request, NextFunction } from "express";
+import jwt from "jsonwebtoken";
+import { Response, Request } from "express";
 import { senderConfig, setSendEmail } from "../config/email";
+import { UserDomain } from "../models/user";
+import { HttpStatusCode } from "../types/httpStatusCode";
 
 export const sendEmail = (req: Request, res: Response) => {
   const { userEmail, authCode } = req.body;
@@ -119,3 +122,47 @@ export const createUser = async (req: Request, res: Response) => {
       });
     });
 };
+
+export const signin = async (req: Request, res: Response) => {
+  const { loginId, password } = req.body;
+
+  // @ts-ignore
+  const exUser: UserDomain = await User.findOne({
+    attributes: ["loginId", "password", "nickname"],
+    where: { loginId },
+  });
+  if (exUser) {
+    const result = await bcrypt.compare(password, exUser.password);
+    if (result) {
+      const token = jwt.sign(
+        {
+          loginId: exUser.loginId,
+          nickname: exUser.nickname,
+        },
+        process.env.JWT_SECRET!,
+        { expiresIn: "1m", issuer: "2DC" }
+      );
+
+      res.status(HttpStatusCode.OK).json({
+        statusCode: HttpStatusCode.OK,
+        message: "로그인 성공",
+        token,
+      });
+    } else {
+      res.status(HttpStatusCode.UNAUTHORIZED).json({
+        statusCode: HttpStatusCode.UNAUTHORIZED,
+        message: "패스워드가 일치하지 않습니다.",
+      });
+    }
+  } else {
+    res.status(HttpStatusCode.UNAUTHORIZED).json({
+      statusCode: HttpStatusCode.UNAUTHORIZED,
+      message: "가입되지 않은 회원입니다.",
+    });
+  }
+};
+
+// 아이디와 비밀번호를 입력받음.
+// db에서 id와 비밀번호를 가져옴
+// 입력한 아이디와 비밀번호가 db의 id, 비밀번호와 일치하면 로그인
+// 아니면 로그인 실패
