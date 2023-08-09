@@ -8,6 +8,11 @@ type CREATE_USER = (
   nickname: string
 ) => Promise<AxiosResponse<any, any>>;
 
+type SIGN_IN = (
+  loginId: string,
+  password: string
+) => Promise<AxiosResponse<any, any>>;
+
 type CHECK_DUPLICATE = (
   loginId?: string,
   email?: string,
@@ -18,7 +23,7 @@ type CHECK_DUPLICATE = (
 export const createUser: CREATE_USER = (loginId, password, email, nickname) => {
   return API({
     method: METHOD.POST,
-    url: "/signin",
+    url: "/signup",
     data: {
       loginId,
       password,
@@ -56,5 +61,23 @@ export const sendAuthCodeToUserEmail: CHECK_DUPLICATE = (email, authCode) => {
       userEmail: email,
       authCode: authCode,
     },
+  });
+};
+
+export const signin: SIGN_IN = (loginId, password) => {
+  return API({
+    method: METHOD.POST,
+    url: "/signin",
+    data: {
+      loginId,
+      password,
+    },
+  });
+};
+
+export const tokenTest = () => {
+  return API({
+    method: METHOD.GET,
+    url: "/token-test",
   });
 };

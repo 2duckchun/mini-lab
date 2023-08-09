@@ -1,4 +1,4 @@
-import styles from "./Signin.module.css";
+import styles from "./SignUp.module.css";
 import { useState } from "react";
 import generateRandomString from "../../utils/generateRandomString";
 import {
